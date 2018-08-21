@@ -16,7 +16,7 @@
         android:id="@+id/Ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Выбрали"/>
+        android:text="ОК"/>
     <Button
         android:id="@+id/dismiss"
         android:layout_width="match_parent"

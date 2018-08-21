@@ -9,8 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 import java.util.List;
 
@@ -28,11 +32,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         ImageView imageItem;
+        ProgressBar pr_bar;
 
         PersonViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
             imageItem = (ImageView)itemView.findViewById(R.id.gif_image);
+            pr_bar=(ProgressBar)itemView.findViewById(R.id.progress_item);
         }
     }
 
@@ -63,14 +69,25 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
 
         personViewHolder.itemView.setBackgroundColor(selected_position == i ? Color.parseColor("#A60000") : Color.TRANSPARENT);
 
-        Glide.with(context)
+       /* Glide.with(context)
                 .load(persons.get(i).photoId)
                 .asBitmap()
                 .centerCrop()
                 .crossFade(250)
                 .placeholder(R.drawable.lower)
                 .error(R.drawable.lower)
-                .into(personViewHolder.imageItem);
+                .into(personViewHolder.imageItem);*/
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .override(450, 450)
+                .placeholder(R.drawable.lower)
+                .error(R.drawable.lower)
+                .priority(Priority.HIGH);
+
+        new GlideImageLoader(personViewHolder.imageItem,
+                personViewHolder.pr_bar).load(persons.get(i).photoId,options);
+
+
         //при касании выбор картинки
         personViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

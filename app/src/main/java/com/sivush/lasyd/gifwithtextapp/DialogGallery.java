@@ -42,13 +42,12 @@ public class DialogGallery extends DialogFragment {
         galleries.add(new ChoiceCard("День Рождения", "birthday"));
         galleries.add(new ChoiceCard("Цветы",  "flowers"));
         galleries.add(new ChoiceCard("Уют",  "cozy"));
-        galleries.add(new ChoiceCard("Сезон",  "season"));
         galleries.add(new ChoiceCard("Кошки",  "cat"));
         galleries.add(new ChoiceCard("Собаки",  "dog"));
         galleries.add(new ChoiceCard("Романтика",  "love"));
         galleries.add(new ChoiceCard("Алкоголь",  "alcohol"));
         galleries.add(new ChoiceCard("Веселье",  "fun"));
-        galleries.add(new ChoiceCard("Поиск",  "lower"));
+
         RecyclerView rvGif=(RecyclerView)rootView.findViewById(R.id.rvGif);
         GridLayoutManager llmJ  =new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL,false);
         rvGif.setLayoutManager(llmJ);

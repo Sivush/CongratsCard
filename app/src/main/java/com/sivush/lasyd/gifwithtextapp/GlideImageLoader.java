@@ -1,4 +1,4 @@
-package com.sivush.lasyd.testglideprogres;
+package com.sivush.lasyd.gifwithtextapp;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;

@@ -20,10 +20,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements VerticalStepperFo
     //dialog gallery
     ImageView ChoiceImage;
     int GalleryId=1;
+    ProgressBar GalleryProgress;
 
     String[] GalDog;
     String[] GalBirthday;
@@ -68,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements VerticalStepperFo
     ImageView CardImage;
     String CardUri;
     String textwishes;
+    ProgressBar CardProgress;
 
 
     RVAdapter RVAdapter;
@@ -84,12 +92,12 @@ public class MainActivity extends AppCompatActivity implements VerticalStepperFo
         galleries.add(new ChoiceCard("День Рождения", "birthday"));
         galleries.add(new ChoiceCard("Цветы",  "flowers"));
         galleries.add(new ChoiceCard("Уют",  "cozy"));
-        galleries.add(new ChoiceCard("Сезон",  "season"));
         galleries.add(new ChoiceCard("Кошки",  "cat"));
         galleries.add(new ChoiceCard("Собаки",  "dog"));
         galleries.add(new ChoiceCard("Романтика",  "love"));
         galleries.add(new ChoiceCard("Алкоголь",  "alcohol"));
         galleries.add(new ChoiceCard("Веселье",  "fun"));
+
 
         GalBirthday=getResources().getStringArray(R.array.birthday);
         GalFlowers=getResources().getStringArray(R.array.flowers);
@@ -144,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements VerticalStepperFo
         LayoutInflater inflater = LayoutInflater.from(getBaseContext());
         LinearLayout choice_gallery=(LinearLayout) inflater.inflate(R.layout.gallery_choice_step,null,false);
         ChoiceImage=(ImageView)choice_gallery.findViewById(R.id.ivImage);
+        GalleryProgress=(ProgressBar) choice_gallery.findViewById(R.id.progressGallery);
         Button ButTest=(Button)choice_gallery.findViewById(R.id.button2);
         ButTest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -239,9 +248,10 @@ public class MainActivity extends AppCompatActivity implements VerticalStepperFo
 
     private View createCardStep(){
         LayoutInflater inflater = LayoutInflater.from(getBaseContext());
-        LinearLayout card_layout=(LinearLayout) inflater.inflate(R.layout.card_step,null,false);
+        RelativeLayout card_layout=(RelativeLayout) inflater.inflate(R.layout.card_step,null,false);
         ResultText=(EditText)card_layout.findViewById(R.id.result_text);
         CardImage=(ImageView)card_layout.findViewById(R.id.result_image);
+        CardProgress=(ProgressBar)card_layout.findViewById(R.id.progress);
         return card_layout;
     }
 
@@ -280,18 +290,20 @@ public class MainActivity extends AppCompatActivity implements VerticalStepperFo
 
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREF_NAME", MODE_PRIVATE);
         String url = sharedPreferences.getString("UriCh","Not Available");
-        Log.d("TTT", url);
-        if(url != null){
-            CardUri=url;
-            Glide.with(this)
-                    .load(CardUri)
-                    .asGif()
+
+        if(url != null) {
+            CardUri = url;
+
+
+            RequestOptions options = new RequestOptions()
                     .override(250, 250)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .centerCrop()
-                    .crossFade(250)
-                    .placeholder(R.drawable.lower)
-                    .into(CardImage);
+                    .error(R.drawable.lower)
+                    .priority(Priority.HIGH);
+
+            new GlideImageLoader(CardImage,
+                    CardProgress).load(CardUri, options);
+
         }
     }
 
@@ -301,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements VerticalStepperFo
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(true);
         progressDialog.show();
-        progressDialog.setMessage(getString(R.string.vertical_form_stepper_form_sending_data_message));
+        progressDialog.setMessage("Пересылка...");
         executeDataSending();
     }
 
@@ -315,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements VerticalStepperFo
     public void onAddGallerySubmit(int id) {
         ChoiceImage.setVisibility(View.VISIBLE);
         int i = getResources().getIdentifier(galleries.get(id).photoId, "drawable", getPackageName());
-        Glide.with(this)
+      /*  Glide.with(this)
                 .load(i)
                 .asGif()
                 .override(250, 250)
@@ -323,7 +335,14 @@ public class MainActivity extends AppCompatActivity implements VerticalStepperFo
                 .centerCrop()
                 .placeholder(R.drawable.question_mark)
                 .error(R.drawable.lower)
+                .into(ChoiceImage);*/
+
+
+        Glide.with(this)
+                .load(i)
+                .apply(new RequestOptions().override(250, 250).transforms(new CenterCrop(), new RoundedCorners(20)))
                 .into(ChoiceImage);
+
         checkGallery();
     }
 

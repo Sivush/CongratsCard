@@ -9,9 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -26,7 +32,7 @@ public class RVAdapterT extends RecyclerView.Adapter<RVAdapterT.PersonViewHolder
         CardView cv;
         TextView personName;
         ImageView personPhoto;
-        ImageView GifImage;
+
 
 
 
@@ -67,13 +73,13 @@ public class RVAdapterT extends RecyclerView.Adapter<RVAdapterT.PersonViewHolder
             personViewHolder.personName.setText(persons.get(i).name);
             personViewHolder.itemView.setBackgroundColor(selected_position == i ? Color.parseColor("#A60000") : Color.TRANSPARENT);
             int id = context.getResources().getIdentifier(persons.get(i).photoId, "drawable", context.getPackageName());
-            Glide.with(context)
-                    .load(id)
-                    .asBitmap()
-                    .centerCrop()
-                    .placeholder(R.drawable.lower)
-                    .error(R.drawable.lower)
-                    .into(personViewHolder.personPhoto);
+
+          Glide.with(context)
+                        .load(id)
+                        .apply(new RequestOptions().override(400,400).transforms(new CenterCrop(), new RoundedCorners(20)))
+                        .into(personViewHolder.personPhoto);
+
+
             //при касании выбор картинки
             personViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,4 +1,4 @@
-package com.sivush.lasyd.testglideprogres;
+package com.sivush.lasyd.gifwithtextapp;
 
 import android.content.Context;
 import android.os.Handler;

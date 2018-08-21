@@ -14,19 +14,31 @@
         android:layout_height="wrap_content"
         android:text="Выбор раздела"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:background="@color/colorAccent"
-
+        android:background="@color/colorPrimary"
         android:gravity="center"
-        android:padding="5dp"
+
         android:layout_marginBottom="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:textColor="@color/colorWhite"
         />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <ProgressBar
+        android:id="@+id/progressGallery"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:visibility="invisible" />
     <ImageView
         android:id="@+id/ivImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
 
-        android:background="@drawable/question_mark"
-        android:visibility="visible"/>
+        android:background="@color/colorOneMore"
+       />* android:src="@drawable/question_mark"*/
+
+    </RelativeLayout>
+
+
 </LinearLayout>
