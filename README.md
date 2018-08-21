@@ -1,3 +1,5 @@
 # CongratsCard
 
-<img src="https://im3.ezgif.com/tmp/ezgif-3-057fbbf41f.gif" width="40" height="60" />
+Конструктор для открытки, где можно выбрать поздравительную гифку, составить текст и отправить в любой мессенджер.
+
+<img src="https://im3.ezgif.com/tmp/ezgif-3-057fbbf41f.gif" />
